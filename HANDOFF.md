@@ -22,7 +22,7 @@ Contoh alur:
 
 ## 2. Pengguna & platform
 
-- **Satu pengguna** (pemilik). Login Supabase Auth email + password. **Sign-up publik dimatikan**; akun dibuat manual di dashboard Supabase.
+- ~~**Satu pengguna** (pemilik). Sign-up publik dimatikan.~~ **Diubah 23 Nov 2026:** ada halaman **Daftar** (`/register`), sign-up publik dinyalakan. Login Supabase Auth email + password. Data tiap akun terpisah lewat RLS (tidak ada berbagi data antar akun).
 - **Mobile-first** responsive web (bisa "Add to Home Screen"), tetap rapi di desktop.
 - UI **Bahasa Indonesia**; kode & database **Bahasa Inggris** (lihat §8).
 
@@ -69,15 +69,16 @@ Bottom nav dua tab + tombol melayang **"+ Belanja"** di kedua tab.
 
 | Route | Layar | Isi |
 |---|---|---|
-| `/login` | Login | Email + password. Tanpa link daftar. |
+| `/login` | Login | Email + password, link ke Daftar. |
+| `/register` | Daftar | Email + password + ulangi password. Kalau konfirmasi email aktif: layar "Cek email kamu". |
 | `/` | **Tab Barang** (halaman awal) | Kolom pencarian, lalu daftar Barang urut **terakhir dibeli**. Tiap baris: nama Barang, Toko Termurah + Harga Acuannya. Kalau baru ada 1 Toko, tampilkan Toko itu + harganya tanpa badge. |
-| `/barang/:id` | **Detail Barang** | (1) Kartu per Toko: Harga Acuan + tanggal, badge Termurah, selisih vs termurah, info promo terakhir, gaya pudar untuk Data Lama. (2) Grafik garis Harga Satuan vs waktu, satu garis per Toko (titik Promo dibedakan). (3) Riwayat semua Pembelian, terbaru di atas: tanggal · Toko · qty · Harga Satuan · tanda Promo. Nama Barang bisa diedit. |
-| `/belanja` | **Tab Belanja** | Riwayat Belanja terbaru di atas: tanggal, Toko, jumlah Barang, total. |
-| `/belanja/baru` | **Form Belanja** | Pilih Toko (autocomplete + "+ Tambah 'X'"), tanggal (default hari ini), lalu daftar baris Pembelian: Barang (autocomplete + buat baru inline), qty, Harga Satuan (keypad numerik, format `20.000` otomatis), centang Promo. Barang duplikat dalam satu Belanja ditolak. |
-| `/belanja/:id` | **Detail / edit Belanja** | Form yang sama dalam mode edit, plus tombol hapus (dengan konfirmasi; ikut menghapus Pembeliannya). |
+| `/items/:id` | **Detail Barang** | (1) Kartu per Toko: Harga Acuan + tanggal, badge Termurah, selisih vs termurah, info promo terakhir, gaya pudar untuk Data Lama. (2) Grafik garis Harga Satuan vs waktu, satu garis per Toko (titik Promo dibedakan). (3) Riwayat semua Pembelian, terbaru di atas: tanggal · Toko · qty · Harga Satuan · tanda Promo. Nama Barang bisa diedit. |
+| `/trips` | **Tab Belanja** | Riwayat Belanja terbaru di atas: tanggal, Toko, jumlah Barang, total. |
+| `/trips/new` | **Form Belanja** | Pilih Toko (autocomplete + "+ Tambah 'X'"), tanggal (default hari ini), lalu daftar baris Pembelian: Barang (autocomplete + buat baru inline), qty, Harga Satuan (keypad numerik, format `20.000` otomatis), centang Promo. Barang duplikat dalam satu Belanja ditolak. |
+| `/trips/:id` | **Detail / edit Belanja** | Form yang sama dalam mode edit, plus tombol hapus (dengan konfirmasi; ikut menghapus Pembeliannya). |
 
 - Barang/Toko **tidak bisa dihapus** selama masih dipakai Pembelian/Belanja. Nama keduanya bisa diedit.
-- Tampilan: warna utama **hijau**, dark mode **mengikuti sistem**. Logo menyusul (pakai placeholder teks "MuNa").
+- Tampilan: warna utama **hijau**, dark mode **mengikuti sistem**. Logo: dua label harga putih di atas kotak hijau `#007A56` (`public/favicon.svg` + PNG/ICO), dipakai di halaman Masuk/Daftar dan header tab Barang.
 
 ## 6. Tech stack
 
@@ -136,7 +137,7 @@ Format tampilan (Rupiah, tanggal Indonesia, label) dikerjakan di frontend.
 
 ## 9. Di luar MVP (sengaja ditunda)
 
-Kategori Barang · foto/scan struk (OCR) · berbagi dengan keluarga · export CSV · harga per kg/ml (lihat ADR 0001) · offline mode · gabung (merge) Barang/Toko duplikat · logo final.
+Kategori Barang · foto/scan struk (OCR) · berbagi dengan keluarga · export CSV · harga per kg/ml (lihat ADR 0001) · offline mode · gabung (merge) Barang/Toko duplikat.
 
 ## 10. Urutan pengerjaan
 
